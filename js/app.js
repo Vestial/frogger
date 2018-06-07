@@ -1,6 +1,5 @@
 // Enemies our player must avoid
 var Enemy = function(x, y, speed) {
-
   this.sprite = "images/enemy-bug.png";
   this.x = x;
   this.y = y;
@@ -15,10 +14,10 @@ Enemy.prototype.update = function(dt) {
   // all computers.
   this.x = this.x + this.speed * dt;
 
-    if (this.x > 500) {
-        this.x = -50;
-        this.respawn();
-    }
+  if (this.x > 500) {
+    this.x = -50;
+    this.respawn();
+  }
 };
 
 // Draw the enemy on the screen, required method for game
@@ -28,8 +27,8 @@ Enemy.prototype.render = function() {
 
 // Spawn the enemies with random speed after the first spawn
 Enemy.prototype.respawn = function() {
-    let randomSpeed = Math.random() * 10;
-    this.speed = randomSpeed * 100;
+  let randomSpeed = Math.random() * 10;
+  this.speed = randomSpeed * 100;
 };
 
 // Now write your own player class
@@ -48,25 +47,56 @@ Player.prototype.render = function() {
 };
 
 // Update the game
-Player.prototype.update = function(dt) {
+Player.prototype.update = function(dt) {};
 
+Player.prototype.win = function() {
+    this.respawn();
+};
+
+Player.prototype.respawn = function() {
+    this.x = 200;
+    this.y = 400;
+};
+
+Player.prototype.handleInput = function(key) {
+  const leftBorder = 0;
+  const rightBorder = 400;
+  const topBorder = 70;
+  const bottomBorder = 400;
+
+  if (key === "up") {
+    if (this.y <= topBorder) this.win();
+    else this.y -= 85;
+  }
+  if (key === "down") {
+    if (this.y >= bottomBorder) this.y = this.y;
+    else this.y += 85;
+  }
+  if (key === "left") {
+    if (this.x <= leftBorder) this.x = this.x;
+    else this.x -= 105;
+  }
+  if (key === "right") {
+    if (this.x >= rightBorder) this.x = this.x;
+    else this.x += 105;
+  }
 };
 
 // Now instantiate your objects.
 // Place all enemy objects in an array called allEnemies
 // Place the player object in a variable called player
 
-var allEnemies = [];
-var enemy;
+let allEnemies = [];
+let enemy;
 for (var i = 0; i < 3; i++) {
-  var x = 0;
-  var y = 60;
-  var speed = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
+  let x = 0;
+  let y = 60;
+  let speed = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
   enemy = new Enemy(x, y + 83 * i, speed);
   allEnemies.push(enemy);
 }
 
-var player = new Player(200, 400);
+const player = new Player(200, 400);
 
 // This listens for key presses and sends the keys to your
 // Player.handleInput() method. You don't need to modify this.
