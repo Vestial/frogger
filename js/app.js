@@ -18,6 +18,7 @@ Enemy.prototype.update = function(dt) {
     this.x = -50;
     this.respawn();
   }
+  this.checkCollision();
 };
 
 // Draw the enemy on the screen, required method for game
@@ -29,6 +30,15 @@ Enemy.prototype.render = function() {
 Enemy.prototype.respawn = function() {
   let randomSpeed = Math.random() * 10;
   this.speed = randomSpeed * 100;
+};
+
+Enemy.prototype.checkCollision = function() {
+  let yd = this.y - player.y;
+  let xd = this.x - player.x;
+
+  if (yd > -20 && yd < 20 && (xd > -50 && xd < 50)) {
+    player.die();
+  }
 };
 
 // Now write your own player class
@@ -50,12 +60,16 @@ Player.prototype.render = function() {
 Player.prototype.update = function(dt) {};
 
 Player.prototype.win = function() {
-    this.respawn();
+  this.respawn();
+};
+
+Player.prototype.die = function() {
+  this.respawn();
 };
 
 Player.prototype.respawn = function() {
-    this.x = 200;
-    this.y = 400;
+  this.x = 200;
+  this.y = 400;
 };
 
 Player.prototype.handleInput = function(key) {
@@ -88,7 +102,7 @@ Player.prototype.handleInput = function(key) {
 
 let allEnemies = [];
 let enemy;
-for (var i = 0; i < 3; i++) {
+for (let i = 0; i < 3; i++) {
   let x = 0;
   let y = 60;
   let speed = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
