@@ -3,7 +3,7 @@ This is a remake of the classic arcade game "Frogger".
 This project is made as part of the Front End Development course by Udacity.
 
 ## How to start the game
-You can play this game here vestial-frogger.surge.sh or by downloading/cloning the repo and open "index.html".
+You can play this game here http://www.vestial-frogger.surge.sh or by downloading/cloning the repo and open "index.html".
 
 ## How to Play
 Try to get to the water without colliding with the insects. Every time you collide,
