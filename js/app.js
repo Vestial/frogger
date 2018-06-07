@@ -9,7 +9,7 @@ var Enemy = function(x, y, speed) {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-  // You should multiply any movement by the dt parameter
+  // Multiplies any movement by the dt parameter
   // which will ensure the game runs at the same speed for
   // all computers.
   this.x = this.x + this.speed * dt;
@@ -28,10 +28,11 @@ Enemy.prototype.render = function() {
 
 // Spawn the enemies with random speed after the first spawn
 Enemy.prototype.respawn = function() {
-  let randomSpeed = Math.random() * 10;
+  let randomSpeed = Math.random() * (4 - 2) + 2;
   this.speed = randomSpeed * 100;
 };
 
+// Check if the enemy has collided with the player
 Enemy.prototype.checkCollision = function() {
   let yd = this.y - player.y;
   let xd = this.x - player.x;
@@ -41,10 +42,7 @@ Enemy.prototype.checkCollision = function() {
   }
 };
 
-// Now write your own player class
-// This class requires an update(), render() and
-// a handleInput() method.
-
+// The constructor for the player class
 var Player = function(x, y) {
   this.sprite = "images/char-princess-girl.png";
   this.x = x;
@@ -62,29 +60,36 @@ Player.prototype.render = function() {
 // Update the game
 Player.prototype.update = function(dt) {};
 
+// Add score and respawn when the player reaches the river
 Player.prototype.win = function() {
   this.score += 5;
   this.respawn();
   this.renderScore();
 };
 
+// Reduce score and respawn when the player collide with the enemies
 Player.prototype.die = function() {
   this.score -= 5;
   this.respawn();
   this.renderScore();
 };
 
+// Respawn the player in a specific location
 Player.prototype.respawn = function() {
   this.x = 200;
   this.y = 400;
 };
 
+// Show the score of the player
 Player.prototype.renderScore = function() {
   let scoreString = "Your score: " + this.score.toString();
   document.querySelector("#score").innerHTML = scoreString;
 };
 
+// Handles the movement of the player 
 Player.prototype.handleInput = function(key) {
+
+  // Set the boundaries of the game
   const leftBorder = 0;
   const rightBorder = 400;
   const topBorder = 70;
@@ -108,24 +113,22 @@ Player.prototype.handleInput = function(key) {
   }
 };
 
-// Now instantiate your objects.
-// Place all enemy objects in an array called allEnemies
-// Place the player object in a variable called player
-
+//Spawn enemies
 let allEnemies = [];
 let enemy;
 for (let i = 0; i < 3; i++) {
   let x = 0;
   let y = 60;
-  let speed = Math.floor(Math.random() * (500 - 100 + 1)) + 100;
+  let speed = Math.floor(100 * (Math.random() * (8 - 2) + 2));
   enemy = new Enemy(x, y + 83 * i, speed);
   allEnemies.push(enemy);
 }
 
+// Create player
 const player = new Player(200, 400);
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
+// This listens for key presses and sends the keys to
+// Player.handleInput() method
 document.addEventListener("keyup", function(e) {
   var allowedKeys = {
     37: "left",
