@@ -49,6 +49,9 @@ var Player = function(x, y) {
   this.sprite = "images/char-princess-girl.png";
   this.x = x;
   this.y = y;
+
+  this.score = 0;
+  this.renderScore();
 };
 
 // Draw the player on the screen
@@ -60,16 +63,25 @@ Player.prototype.render = function() {
 Player.prototype.update = function(dt) {};
 
 Player.prototype.win = function() {
+  this.score += 5;
   this.respawn();
+  this.renderScore();
 };
 
 Player.prototype.die = function() {
+  this.score -= 5;
   this.respawn();
+  this.renderScore();
 };
 
 Player.prototype.respawn = function() {
   this.x = 200;
   this.y = 400;
+};
+
+Player.prototype.renderScore = function() {
+  let scoreString = "Your score: " + this.score.toString();
+  document.querySelector("#score").innerHTML = scoreString;
 };
 
 Player.prototype.handleInput = function(key) {
